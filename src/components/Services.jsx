@@ -11,7 +11,6 @@ const services = [
   { title: 'Tyres & Wheels', description: 'Tyre fitting, balancing, and wheel support for stability and grip.' },
   { title: 'Pre Purchase Inspection', description: 'Independent inspections to help buyers make informed decisions.' },
   { title: 'Battery Replacement', description: 'Battery testing and replacement for reliable starting performance.' },
-  { title: 'Wheel Alignment', description: 'Improves steering response, tracking, and tyre life.' },
   { title: 'Roadside Assistance', description: 'Immediate support when your vehicle is immobilised.' },
 ];
 

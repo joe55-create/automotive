@@ -35,7 +35,7 @@ export default function Footer() {
             </p>
 
             <p className="mt-2 text-xs uppercase tracking-[0.22em] text-[var(--color-ink-muted)]">
-              Designed by NxtDesigns
+              
             </p>
           </div>
         </div>

@@ -84,7 +84,7 @@ function SectionHeading({ level = 'h2', id, children }) {
   return (
     <Tag
       id={id}
-      className="section-heading mt-4 max-w-5xl text-[var(--color-ink)]"
+      className="section-heading mt-4 max-w-5xl text-black"
     >
       {children}
     </Tag>
@@ -141,26 +141,12 @@ export default function Services({
     <section
       id="services"
       aria-labelledby={headingId}
-      className="relative isolate overflow-hidden border-b border-[var(--color-divider)] py-[var(--section-space)]"
+      className="bg-white py-[var(--section-space)]"
     >
-      <div className="absolute inset-0 -z-10">
-        <Image
-          src="/images/Mechanics.png"
-          alt="Sarav Motors mechanics working inside the workshop"
-          fill
-          sizes="100vw"
-          priority={false}
-          className="object-cover object-center opacity-120"
-        />
-
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.9)_0%,rgba(3,10,25,0.94)_48%,rgba(2,6,23,0.98)_100%)]" />
-
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(245,158,11,0.16),transparent_30%),radial-gradient(circle_at_88%_78%,rgba(37,99,235,0.12),transparent_34%)]" />
-      </div>
-
       <div className="section-shell">
+        {/* Header */}
         <div className="max-w-4xl">
-          <p className="section-label text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--color-brand-light)]">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--color-brand)]">
             Services
           </p>
 
@@ -168,23 +154,25 @@ export default function Services({
             Complete workshop services for everyday drivers and modern vehicles.
           </SectionHeading>
 
-          <p className="section-copy mt-6 max-w-3xl text-[var(--color-ink-soft)]">
+          <p className="mt-6 max-w-3xl text-[1rem] leading-8 text-gray-600">
             Sarav Motors provides reliable servicing, diagnostics, repairs,
             inspections, battery support, tyres, wheels, and roadside assistance
             with clear communication and practical advice.
           </p>
         </div>
 
+        {/* Service Tags */}
         <div className="mt-12 flex flex-wrap gap-3">
           {services.map((service) => (
             <span
               key={service.title}
-              className="rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-sm text-[var(--color-ink-soft)] backdrop-blur-md transition duration-300 hover:border-[var(--color-brand)]/40 hover:bg-white/[0.08] hover:text-white"
+              className="rounded-full border border-gray-200 bg-white px-4 py-2 text-sm text-gray-700 shadow-sm transition duration-300 hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]"
             >
               {service.title}
             </span>
           ))}
 
+          {/* Mobile Service Dropdown */}
           <div ref={dropdownRef} className="relative">
             <button
               type="button"
@@ -194,7 +182,7 @@ export default function Services({
               className={`rounded-full border px-4 py-2 text-sm font-semibold transition duration-300 ${
                 isOpen
                   ? 'border-[var(--color-brand)] bg-[var(--color-brand)] text-white'
-                  : 'border-white/10 bg-white/[0.05] text-[var(--color-ink-soft)] hover:border-[var(--color-brand)]/60 hover:bg-white/[0.08] hover:text-white'
+                  : 'border-gray-200 bg-white text-gray-700 hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]'
               }`}
             >
               {mobileService.title}
@@ -203,13 +191,13 @@ export default function Services({
             {isOpen ? (
               <div
                 id="mobile-service-dropdown"
-                className="absolute left-0 z-30 mt-3 w-[min(29rem,calc(100vw-2rem))] rounded-[1.7rem] border border-white/10 bg-[rgba(6,12,24,0.97)] p-5 shadow-2xl backdrop-blur-2xl"
+                className="absolute left-0 z-30 mt-3 w-[min(29rem,calc(100vw-2rem))] rounded-[1.7rem] border border-gray-200 bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.08)]"
               >
-                <p className="text-[11px] uppercase tracking-[0.22em] text-[var(--color-brand-light)]">
+                <p className="text-[11px] uppercase tracking-[0.22em] text-[var(--color-brand)]">
                   Mobile Support
                 </p>
 
-                <p className="mt-3 text-sm leading-7 text-[var(--color-ink-soft)]">
+                <p className="mt-3 text-sm leading-7 text-gray-600">
                   {mobileService.summary}
                 </p>
 
@@ -217,7 +205,7 @@ export default function Services({
                   {mobileService.details.map((detail) => (
                     <p
                       key={detail}
-                      className="rounded-[1rem] border border-white/10 bg-white/[0.05] px-3 py-2 text-sm text-[var(--color-ink-soft)]"
+                      className="rounded-[1rem] border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700"
                     >
                       {detail}
                     </p>
@@ -228,25 +216,26 @@ export default function Services({
           </div>
         </div>
 
+        {/* Services Grid */}
         <div className="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {services.map((service, index) => (
             <article
               key={service.title}
-              className="group rounded-[1.8rem] border border-white/10 bg-[linear-gradient(180deg,rgba(16,30,56,0.84)_0%,rgba(10,20,40,0.92)_100%)] p-6 shadow-[0_10px_40px_rgba(0,0,0,0.28)] backdrop-blur-xl transition duration-500 hover:-translate-y-1.5 hover:border-[var(--color-brand)]/45 hover:bg-[linear-gradient(180deg,rgba(22,39,70,0.9)_0%,rgba(12,24,46,0.95)_100%)]"
+              className="group overflow-hidden rounded-[1.8rem] border border-gray-200 bg-white p-6 shadow-[0_10px_40px_rgba(15,23,42,0.06)] transition duration-500 hover:-translate-y-1.5 hover:border-[var(--color-brand)]/40 hover:shadow-[0_20px_60px_rgba(15,23,42,0.10)]"
             >
               <div className="flex items-center justify-between gap-4">
-                <p className="text-[11px] uppercase tracking-[0.26em] text-[var(--color-ink-muted)]">
+                <p className="text-[11px] uppercase tracking-[0.26em] text-gray-400">
                   {String(index + 1).padStart(2, '0')}
                 </p>
 
                 <span className="h-2 w-2 rounded-full bg-[var(--color-brand)] opacity-70 transition duration-300 group-hover:scale-125 group-hover:opacity-100" />
               </div>
 
-              <h3 className="mt-4 text-[1.15rem] font-semibold tracking-[-0.02em] text-white">
+              <h3 className="mt-4 text-[1.15rem] font-semibold tracking-[-0.02em] text-black">
                 {service.title}
               </h3>
 
-              <p className="mt-3 text-sm leading-7 text-[var(--color-ink-soft)]">
+              <p className="mt-3 text-sm leading-7 text-gray-600">
                 {service.description}
               </p>
             </article>

@@ -24,7 +24,7 @@ export default function ContactPage() {
       />
 
       <SiteLayout>
-        <Contact headingLevel="h1" />
+        <Contact />
         <QuoteForm services={services} />
       </SiteLayout>
     </>

@@ -24,7 +24,7 @@ export default function AboutPage() {
       />
 
       <SiteLayout>
-        <About headingLevel="h1" />
+        <About />
       </SiteLayout>
     </>
   );

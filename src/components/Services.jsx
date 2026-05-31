@@ -103,20 +103,23 @@ export default function Services({
   headingId = 'services-heading',
 }) {
   const [isOpen, setIsOpen] = useState(false);
+
+  /** @type {import('react').RefObject<HTMLDivElement | null>} */
   const dropdownRef = useRef(null);
-  const HeadingTag = headingLevel;
 
   useEffect(() => {
     if (!isOpen) return undefined;
 
     const handleClickOutside = (event) => {
-      if (!dropdownRef.current?.contains(event.target)) {
+      if (!dropdownRef.current?.contains(/** @type {Node} */ (event.target))) {
         setIsOpen(false);
       }
     };
 
     const handleEscape = (event) => {
-      if (event.key === 'Escape') setIsOpen(false);
+      if (event.key === 'Escape') {
+        setIsOpen(false);
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -127,6 +130,8 @@ export default function Services({
       document.removeEventListener('keydown', handleEscape);
     };
   }, [isOpen]);
+
+  const Heading = headingLevel === 'h1' ? 'h1' : 'h2';
 
   return (
     <section
@@ -144,8 +149,8 @@ export default function Services({
           className="object-cover object-center"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-r from-white/94 via-white/68 to-black/25" />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/55 via-transparent to-black/25" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/82 via-white/45 to-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-black/10" />
       </div>
 
       <div className="section-shell relative z-10 py-32">
@@ -155,23 +160,28 @@ export default function Services({
           viewport={{ once: true, amount: 0.25 }}
           custom={0}
           variants={fadeUp}
-          className="max-w-4xl"
+          className="max-w-5xl"
         >
           <p className="inline-flex rounded-full border border-blue-200 bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-brand)] shadow-sm backdrop-blur-md">
-            Services
+            Premium Workshop Services
           </p>
 
-          <HeadingTag
+          <Heading
             id={headingId}
-            className="mt-6 max-w-5xl text-[2.65rem] leading-[0.98] font-black tracking-[-0.065em] text-black sm:text-[3.8rem] lg:text-[4.8rem]"
+            className="mt-6 max-w-6xl text-[3rem] leading-[0.9] font-black tracking-[-0.08em] text-black sm:text-[4.5rem] lg:text-[5.8rem]"
           >
-            Complete workshop services for everyday drivers and modern vehicles.
-          </HeadingTag>
+            Professional servicing,
+            <br />
+            diagnostics and repairs
+            <span className="block text-[var(--color-brand)]">
+              delivered with confidence.
+            </span>
+          </Heading>
 
-          <p className="mt-7 max-w-3xl text-[1.05rem] leading-8 text-gray-800 sm:text-lg">
-            Sarav Motors provides reliable servicing, diagnostics, repairs,
-            inspections, battery support, tyres, wheels, and roadside assistance
-            with clear communication and practical advice.
+          <p className="mt-8 max-w-3xl text-[1.08rem] leading-8 text-gray-700 sm:text-lg">
+            From routine maintenance to complex mechanical repairs, Sarav Motors
+            combines advanced diagnostics, experienced technicians, and honest
+            advice to keep your vehicle performing at its best.
           </p>
         </motion.div>
 
@@ -186,7 +196,7 @@ export default function Services({
           {services.map((service) => (
             <span
               key={service.title}
-              className="rounded-full border border-white/70 bg-white/75 px-5 py-2.5 text-sm font-semibold text-gray-800 shadow-sm backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand)] hover:bg-white/90 hover:text-[var(--color-brand)]"
+              className="rounded-full border border-white/70 bg-white/80 px-5 py-2.5 text-sm font-semibold text-gray-800 shadow-sm backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand)] hover:bg-white/95 hover:text-[var(--color-brand)]"
             >
               {service.title}
             </span>
@@ -201,7 +211,7 @@ export default function Services({
               className={`rounded-full border px-5 py-2.5 text-sm font-bold shadow-sm backdrop-blur-xl transition-all duration-300 ${
                 isOpen
                   ? 'border-[var(--color-brand)] bg-[var(--color-brand)] text-white shadow-[0_14px_35px_rgba(37,99,235,0.25)]'
-                  : 'border-white/70 bg-white/75 text-gray-800 hover:-translate-y-0.5 hover:border-[var(--color-brand)] hover:bg-white/90 hover:text-[var(--color-brand)]'
+                  : 'border-white/70 bg-white/80 text-gray-800 hover:-translate-y-0.5 hover:border-[var(--color-brand)] hover:bg-white/95 hover:text-[var(--color-brand)]'
               }`}
             >
               {mobileService.title}
@@ -213,7 +223,7 @@ export default function Services({
                 initial={{ opacity: 0, y: 12, scale: 0.98 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ duration: 0.25, ease: easing }}
-                className="absolute left-0 z-30 mt-3 w-[min(29rem,calc(100vw-2rem))] rounded-[1.7rem] border border-white/70 bg-white/90 p-5 shadow-[0_24px_70px_rgba(15,23,42,0.18)] backdrop-blur-2xl"
+                className="absolute left-0 z-30 mt-3 w-[min(29rem,calc(100vw-2rem))] rounded-[1.7rem] border border-white/70 bg-white/92 p-5 shadow-[0_24px_70px_rgba(15,23,42,0.18)] backdrop-blur-2xl"
               >
                 <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--color-brand)]">
                   Mobile Support
@@ -227,7 +237,7 @@ export default function Services({
                   {mobileService.details.map((detail) => (
                     <p
                       key={detail}
-                      className="rounded-[1rem] border border-white/70 bg-white/70 px-3 py-2 text-sm font-medium text-gray-700 backdrop-blur"
+                      className="rounded-[1rem] border border-white/70 bg-white/80 px-3 py-2 text-sm font-medium text-gray-700 backdrop-blur"
                     >
                       {detail}
                     </p>
@@ -250,14 +260,14 @@ export default function Services({
                 viewport={{ once: true, amount: 0.18 }}
                 custom={0.08 + index * 0.04}
                 variants={fadeUp}
-                className="group overflow-hidden rounded-[2rem] border border-white/60 bg-white/70 p-7 shadow-[0_18px_60px_rgba(15,23,42,0.16)] backdrop-blur-xl backdrop-saturate-150 transition-all duration-500 hover:-translate-y-2 hover:border-white/80 hover:bg-white/82 hover:shadow-[0_28px_90px_rgba(15,23,42,0.22)]"
+                className="group overflow-hidden rounded-[2.2rem] border border-white/60 bg-white/75 p-7 shadow-[0_18px_60px_rgba(15,23,42,0.16)] backdrop-blur-xl backdrop-saturate-150 transition-all duration-500 hover:-translate-y-2 hover:border-white/80 hover:bg-white/88 hover:shadow-[0_28px_90px_rgba(15,23,42,0.22)]"
               >
                 <div className="flex items-center justify-between gap-4">
                   <p className="text-[11px] font-bold uppercase tracking-[0.26em] text-gray-500">
                     {String(index + 1).padStart(2, '0')}
                   </p>
 
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/70 bg-white/65 text-[var(--color-brand)] shadow-sm backdrop-blur-md transition duration-300 group-hover:bg-[var(--color-brand)] group-hover:text-white">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/70 bg-white/70 text-[var(--color-brand)] shadow-sm backdrop-blur-md transition duration-300 group-hover:bg-[var(--color-brand)] group-hover:text-white">
                     <Icon size={22} strokeWidth={2.2} />
                   </div>
                 </div>

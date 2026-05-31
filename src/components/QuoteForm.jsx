@@ -11,22 +11,8 @@ import { quoteSchema } from '@/lib/quote-schema';
 
 const easing = /** @type {[number, number, number, number]} */ ([0.22, 1, 0.36, 1]);
 
-function Heading({ level = 'h2', id, children }) {
-  const Tag = level;
-
-  return (
-    <Tag
-      id={id}
-      className="mt-6 max-w-4xl text-[2.55rem] leading-[1] font-black tracking-[-0.06em] text-black sm:text-[3.4rem] lg:text-[4.4rem]"
-    >
-      {children}
-    </Tag>
-  );
-}
-
 export default function QuoteForm({
   services,
-  headingLevel = 'h2',
   headingId = 'quote-heading',
 }) {
   const formRef = useRef(null);
@@ -105,7 +91,7 @@ export default function QuoteForm({
       reportError(error, { source: 'QuoteForm.handleSubmit' });
       setStatus({
         type: 'error',
-        message: 'We could not send your request right now. Please try again or call 0452066583.',
+        message: 'We could not send your request right now. Please try again or call 0452 066 583.',
       });
     } finally {
       setIsSending(false);
@@ -132,9 +118,12 @@ export default function QuoteForm({
             Get A Quote
           </p>
 
-          <Heading level={headingLevel} id={headingId}>
+          <h2
+            id={headingId}
+            className="mt-6 max-w-4xl text-[2.55rem] leading-[1] font-black tracking-[-0.06em] text-black sm:text-[3.4rem] lg:text-[4.4rem]"
+          >
             Tell us what your vehicle needs. We’ll respond with practical next steps.
-          </Heading>
+          </h2>
 
           <p className="mt-7 max-w-2xl text-[1.05rem] leading-8 text-gray-700">
             Send your details once and Sarav Motors will review your request, confirm the
@@ -142,23 +131,9 @@ export default function QuoteForm({
           </p>
 
           <div className="mt-10 grid gap-4">
-            <ContactCard
-              icon={Phone}
-              label="Phone"
-              value="0452 066 583"
-              href="tel:0452066583"
-            />
-            <ContactCard
-              icon={Mail}
-              label="Email"
-              value="saravmotors@gmail.com"
-              href="mailto:saravmotors@gmail.com"
-            />
-            <ContactCard
-              icon={MapPin}
-              label="Location"
-              value="3/356 Lower Dandenong Rd, Braeside VIC 3195, Australia"
-            />
+            <ContactCard icon={Phone} label="Phone" value="0452 066 583" href="tel:0452066583" />
+            <ContactCard icon={Mail} label="Email" value="saravmotors@gmail.com" href="mailto:saravmotors@gmail.com" />
+            <ContactCard icon={MapPin} label="Location" value="3/356 Lower Dandenong Rd, Braeside VIC 3195, Australia" />
           </div>
 
           <div className="mt-6 flex items-start gap-3 rounded-[1.5rem] border border-gray-200 bg-white p-5 shadow-[0_14px_45px_rgba(15,23,42,0.08)]">
@@ -219,14 +194,7 @@ export default function QuoteForm({
           </div>
 
           <div className="mt-5">
-            <Field
-              id="car_model"
-              label="Car Model"
-              name="car_model"
-              autoComplete="off"
-              error={fieldErrors.car_model}
-              required
-            />
+            <Field id="car_model" label="Car Model" name="car_model" autoComplete="off" error={fieldErrors.car_model} required />
           </div>
 
           <div className="mt-5 space-y-2">

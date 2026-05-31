@@ -27,37 +27,19 @@ const fadeInRight = {
 };
 
 const trustStats = [
-  {
-    value: '10+',
-    label: 'Years Industry Experience',
-  },
-  {
-    value: '4.9★',
-    label: 'Customer Satisfaction',
-  },
-  {
-    value: '100%',
-    label: 'Transparent Advice',
-  },
-  {
-    value: 'Local',
-    label: 'Braeside Workshop',
-  },
+  { value: '10+', label: 'Years Industry Experience' },
+  { value: '4.9★', label: 'Customer Satisfaction' },
+  { value: '100%', label: 'Transparent Advice' },
+  { value: 'Local', label: 'Braeside Workshop' },
 ];
 
-export default function About({
-  headingLevel = 'h2',
-  headingId = 'about-heading',
-}) {
-  const HeadingTag = headingLevel;
-
+export default function About({ headingId = 'about-heading' }) {
   return (
     <section
       id="about"
       aria-labelledby={headingId}
       className="relative overflow-hidden border-b border-gray-200 py-[var(--section-space)]"
     >
-      {/* Background Image */}
       <div className="absolute inset-0">
         <Image
           src="/images/Mechanics.png"
@@ -68,21 +50,19 @@ export default function About({
           className="object-cover object-center"
         />
 
-        {/* Premium readable overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/96 via-white/78 to-black/30" />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/35 via-transparent to-black/25" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/88 via-white/55 to-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/15 via-transparent to-black/15" />
       </div>
 
       <div className="section-shell relative z-10 grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-        {/* Left Glass Stats Panel */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={fadeInLeft}
-          className="rounded-[2.5rem] border border-white/60 bg-white/72 p-7 shadow-[0_30px_100px_rgba(15,23,42,0.20)] backdrop-blur-2xl sm:p-8"
+          className="rounded-[2.5rem] border border-white/60 bg-white/78 p-7 shadow-[0_35px_120px_rgba(15,23,42,0.22)] backdrop-blur-2xl sm:p-8"
         >
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/70 bg-white/70 text-[var(--color-brand)] shadow-sm">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/70 bg-white/80 text-[var(--color-brand)] shadow-sm">
             <ShieldCheck size={26} strokeWidth={2.3} />
           </div>
 
@@ -104,7 +84,7 @@ export default function About({
             {trustStats.map((item) => (
               <div
                 key={item.label}
-                className="rounded-[1.5rem] border border-white/70 bg-white/72 p-5 shadow-sm backdrop-blur-md"
+                className="rounded-[1.5rem] border border-white/70 bg-white/82 p-5 shadow-sm backdrop-blur-xl"
               >
                 <p className="text-[2rem] font-black tracking-[-0.045em] text-[var(--color-brand)]">
                   {item.value}
@@ -118,24 +98,23 @@ export default function About({
           </div>
         </motion.div>
 
-        {/* Right Content Panel */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={fadeInRight}
-          className="rounded-[2.5rem] border border-white/60 bg-white/78 p-7 shadow-[0_30px_100px_rgba(15,23,42,0.18)] backdrop-blur-2xl sm:p-8"
+          className="rounded-[2.5rem] border border-white/60 bg-white/82 p-7 shadow-[0_35px_120px_rgba(15,23,42,0.20)] backdrop-blur-2xl sm:p-8"
         >
-          <p className="inline-flex rounded-full border border-blue-200 bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-brand)] shadow-sm backdrop-blur-md">
+          <p className="inline-flex rounded-full border border-blue-200 bg-white/85 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-brand)] shadow-sm backdrop-blur-md">
             About Sarav Motors
           </p>
 
-          <HeadingTag
+          <h2
             id={headingId}
             className="mt-6 max-w-4xl text-[2.35rem] leading-[1.02] font-black tracking-[-0.06em] text-black sm:text-[3.15rem] lg:text-[3.85rem]"
           >
             A trusted local workshop focused on quality, honesty, and reliable workmanship.
-          </HeadingTag>
+          </h2>
 
           <div className="mt-8 space-y-6 text-[1.02rem] leading-8 text-gray-700 sm:text-lg">
             <p>
@@ -154,8 +133,8 @@ export default function About({
           </div>
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            <div className="group rounded-[1.7rem] border border-white/70 bg-white/72 p-6 shadow-[0_18px_55px_rgba(15,23,42,0.12)] backdrop-blur-xl transition duration-500 hover:-translate-y-1 hover:bg-white/90 hover:shadow-[0_24px_70px_rgba(15,23,42,0.16)]">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/70 bg-white/70 text-[var(--color-brand)] shadow-sm transition duration-300 group-hover:bg-[var(--color-brand)] group-hover:text-white">
+            <div className="group rounded-[1.7rem] border border-white/70 bg-white/82 p-6 shadow-[0_18px_55px_rgba(15,23,42,0.12)] backdrop-blur-xl transition duration-500 hover:-translate-y-1 hover:bg-white/95 hover:shadow-[0_24px_70px_rgba(15,23,42,0.16)]">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/70 bg-white/80 text-[var(--color-brand)] shadow-sm transition duration-300 group-hover:bg-[var(--color-brand)] group-hover:text-white">
                 <Wrench size={22} strokeWidth={2.2} />
               </div>
 
@@ -169,8 +148,8 @@ export default function About({
               </p>
             </div>
 
-            <div className="group rounded-[1.7rem] border border-white/70 bg-white/72 p-6 shadow-[0_18px_55px_rgba(15,23,42,0.12)] backdrop-blur-xl transition duration-500 hover:-translate-y-1 hover:bg-white/90 hover:shadow-[0_24px_70px_rgba(15,23,42,0.16)]">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/70 bg-white/70 text-[var(--color-brand)] shadow-sm transition duration-300 group-hover:bg-[var(--color-brand)] group-hover:text-white">
+            <div className="group rounded-[1.7rem] border border-white/70 bg-white/82 p-6 shadow-[0_18px_55px_rgba(15,23,42,0.12)] backdrop-blur-xl transition duration-500 hover:-translate-y-1 hover:bg-white/95 hover:shadow-[0_24px_70px_rgba(15,23,42,0.16)]">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/70 bg-white/80 text-[var(--color-brand)] shadow-sm transition duration-300 group-hover:bg-[var(--color-brand)] group-hover:text-white">
                 <MessageCircle size={22} strokeWidth={2.2} />
               </div>
 
@@ -185,7 +164,7 @@ export default function About({
             </div>
           </div>
 
-          <div className="mt-8 flex items-center gap-3 rounded-[1.4rem] border border-white/70 bg-white/75 p-4 shadow-[0_14px_45px_rgba(15,23,42,0.10)] backdrop-blur-xl">
+          <div className="mt-8 flex items-center gap-3 rounded-[1.4rem] border border-white/70 bg-white/82 p-4 shadow-[0_14px_45px_rgba(15,23,42,0.10)] backdrop-blur-xl">
             <BadgeCheck
               size={24}
               strokeWidth={2.3}

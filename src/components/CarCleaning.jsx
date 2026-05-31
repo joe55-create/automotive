@@ -5,7 +5,7 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
-const easing = [0.22, 1, 0.36, 1];
+const easing = /** @type {[number, number, number, number]} */ ([0.22, 1, 0.36, 1]);
 
 export default function LocationSection() {
   return (

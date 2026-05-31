@@ -5,155 +5,132 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
-const easing = /** @type {[number, number, number, number]} */ ([0.22, 1, 0.36, 1]);
+const easing = [0.22, 1, 0.36, 1];
 
-const reveal = {
-  hidden: { opacity: 0, y: 24 },
-  visible: (delay = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.85,
-      ease: easing,
-      delay,
-    },
-  }),
-};
-
-/**
- * @returns {import('react').ReactElement}
- */
-export default function WorkshopGarage() {
+export default function LocationSection() {
   return (
     <section
-      id="workshop"
-      aria-labelledby="workshop-heading"
-      className="relative overflow-hidden border-b border-gray-200 bg-white py-[var(--section-space)]"
+      id="location"
+      aria-labelledby="location-heading"
+      className="relative overflow-hidden border-b border-gray-200 py-[var(--section-space)]"
     >
-      {/* Soft Background Accent */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(249,115,22,0.08),transparent_38%)]" />
+      <div className="absolute inset-0">
+        <Image
+          src="/images/suspension.png"
+          alt=""
+          fill
+          priority={false}
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+
+        <div className="absolute inset-0 bg-gradient-to-r from-white/86 via-white/48 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/10" />
+      </div>
 
       <div className="section-shell relative z-10">
-        {/* Heading Section */}
-        <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            custom={0}
-            variants={reveal}
-          >
-            <p className="section-label text-[11px] font-semibold tracking-[0.24em] uppercase text-orange-600">
-              Workshop & Garage
-            </p>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: easing }}
+          className="mx-auto max-w-4xl text-center"
+        >
+          <p className="inline-flex rounded-full border border-blue-200 bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-brand)] shadow-sm backdrop-blur-md">
+            Location
+          </p>
 
-            <h2
-              id="workshop-heading"
-              className="section-heading mt-5 max-w-xl text-[2.8rem] leading-[0.95] font-bold tracking-[-0.06em] text-gray-900"
-            >
-              Precision mechanical servicing backed by a modern workshop environment.
-            </h2>
+          <h2
+            id="location-heading"
+            className="mt-6 text-[2.8rem] font-black leading-[1] tracking-[-0.06em] text-black sm:text-[4rem] lg:text-[5rem]"
+          >
+            Conveniently Located in Braeside, Victoria
+          </h2>
+
+          <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-gray-700">
+            Sarav Motors proudly services Braeside and surrounding suburbs,
+            providing professional mechanical repairs, diagnostics, servicing,
+            battery replacement, roadside assistance and expert automotive care.
+          </p>
+        </motion.div>
+
+        <div className="mt-14 grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9, ease: easing }}
+            className="overflow-hidden rounded-[2rem] border border-white/60 bg-white/75 shadow-[0_25px_90px_rgba(15,23,42,0.18)] backdrop-blur-xl"
+          >
+            <iframe
+              title="Sarav Motors Braeside Location"
+              src="https://www.google.com/maps?q=Braeside+Victoria+Australia&output=embed"
+              width="100%"
+              height="720"
+              style={{ border: 0 }}
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </motion.div>
 
-          <motion.p
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            custom={0.08}
-            variants={reveal}
-            className="max-w-2xl text-[1.02rem] leading-8 text-gray-600"
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9, ease: easing, delay: 0.1 }}
+            className="overflow-hidden rounded-[2rem] border border-white/60 bg-white/75 shadow-[0_25px_90px_rgba(15,23,42,0.18)] backdrop-blur-xl"
           >
-            Sarav Motors combines professional workshop capability with responsive mobile
-            support, delivering reliable diagnostics, repairs, battery replacement, and
-            hands-on mechanical servicing with a premium customer experience.
-          </motion.p>
-        </div>
-
-        {/* Cards */}
-        <div className="mt-16 grid gap-7 lg:grid-cols-[1.12fr_0.88fr]">
-          {/* Main Workshop Card */}
-          <motion.article
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            custom={0.04}
-            variants={reveal}
-            className="group overflow-hidden rounded-[2rem] border border-gray-200 bg-white shadow-[0_18px_60px_rgba(15,23,42,0.08)] transition duration-500 hover:-translate-y-1 hover:shadow-[0_22px_80px_rgba(15,23,42,0.12)]"
-          >
-            <div className="relative aspect-[16/10] overflow-hidden">
-              <Image
-                src="/images/maintainence.png"
-                alt="Sarav Motors technician working inside the workshop garage"
-                width={1600}
-                height={1000}
-                priority
-                className="h-full w-full object-cover transition duration-[1600ms] ease-out group-hover:scale-[1.04]"
-                sizes="(max-width: 1024px) 100vw, 60vw"
-              />
-
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.02)_0%,rgba(15,23,42,0.18)_48%,rgba(15,23,42,0.88)_100%)]" />
-
-              <div className="absolute bottom-0 left-0 right-0 p-7 sm:p-9">
-                <p className="text-[11px] uppercase tracking-[0.28em] text-orange-300">
-                  Mechanical Repairs
-                </p>
-
-                <h3 className="mt-3 max-w-xl text-[2rem] leading-[1.02] font-semibold tracking-[-0.05em] text-white">
-                  Workshop servicing focused on precision, reliability, and technical expertise.
-                </h3>
-              </div>
-            </div>
-
-            <div className="p-7 sm:p-8">
-              <p className="text-sm leading-7 text-gray-600">
-                From engine diagnostics and routine servicing to complex repairs and
-                inspections, the Sarav Motors workshop is built to deliver dependable
-                mechanical solutions with modern tools, experienced technicians, and
-                attention to detail.
-              </p>
-            </div>
-          </motion.article>
-
-          {/* Mobile Support Card */}
-          <motion.article
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            custom={0.1}
-            variants={reveal}
-            className="group overflow-hidden rounded-[2rem] border border-gray-200 bg-white shadow-[0_18px_60px_rgba(15,23,42,0.08)] transition duration-500 hover:-translate-y-1 hover:shadow-[0_22px_80px_rgba(15,23,42,0.12)]"
-          >
-            <div className="relative aspect-[4/5] lg:aspect-[5/6] overflow-hidden">
+            <div className="relative min-h-[720px] bg-slate-950 p-3">
               <Image
                 src="/images/sarav-mobile-battery-replacement(2).jpeg"
-                alt="Sarav Motors mobile support and battery replacement service"
-                width={1200}
-                height={1400}
-                className="h-full w-full object-cover transition duration-[1600ms] ease-out group-hover:scale-[1.04]"
-                sizes="(max-width: 1024px) 100vw, 40vw"
+                alt="Sarav Motors mobile battery replacement service"
+                fill
+                priority={false}
+                sizes="(max-width: 1024px) 100vw, 32vw"
+                className="object-contain p-3"
               />
-
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.03)_0%,rgba(15,23,42,0.16)_45%,rgba(15,23,42,0.88)_100%)]" />
-
-              <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-7">
-                <p className="text-[11px] uppercase tracking-[0.28em] text-orange-300">
-                  Mobile Assistance
-                </p>
-
-                <h3 className="mt-3 text-[1.5rem] leading-[1.08] font-semibold tracking-[-0.04em] text-white">
-                  Fast roadside support and battery replacement when customers need immediate help.
-                </h3>
-              </div>
             </div>
+          </motion.div>
+        </div>
 
-            <div className="p-7 sm:p-8">
-              <p className="text-sm leading-7 text-gray-600">
-                The mobile service division extends the workshop experience directly to
-                customers, providing rapid support, battery replacement, diagnostics,
-                and on-site mechanical assistance across the local area.
+        <div className="mt-10 grid gap-5 md:grid-cols-3">
+          {[
+            {
+              label: 'Workshop Location',
+              title: 'Central Braeside Access',
+              text: 'Conveniently positioned in Braeside, making it easy for local drivers and businesses to access professional automotive services.',
+            },
+            {
+              label: 'Mobile Support',
+              title: 'On-Site Assistance',
+              text: 'Mobile battery replacement, roadside assistance, diagnostics, and emergency support available across the local area.',
+            },
+            {
+              label: 'Local Expertise',
+              title: 'Trusted Automotive Care',
+              text: 'Supporting Victorian drivers with quality servicing, repairs, diagnostics, inspections, and professional automotive solutions.',
+            },
+          ].map((card, index) => (
+            <motion.div
+              key={card.title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.06 + index * 0.07 }}
+              className="rounded-[1.5rem] border border-white/60 bg-white/75 p-6 shadow-[0_18px_55px_rgba(15,23,42,0.12)] backdrop-blur-xl transition duration-500 hover:-translate-y-1 hover:bg-white/90"
+            >
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-brand)]">
+                {card.label}
               </p>
-            </div>
-          </motion.article>
+
+              <h3 className="mt-3 text-xl font-black tracking-[-0.03em] text-black">
+                {card.title}
+              </h3>
+
+              <p className="mt-3 leading-7 text-gray-700">{card.text}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

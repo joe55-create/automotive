@@ -14,38 +14,39 @@ const links = [
   { label: 'Contact', href: '/contact' },
 ];
 
-/**
- * @returns {import('react').ReactElement}
- */
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--color-navy-border)] bg-[rgba(10,22,40,0.92)] shadow-[0_10px_40px_rgba(10,22,40,0.28)] backdrop-blur-2xl">
-      <nav
-        aria-label="Primary navigation"
-        className="section-shell py-4"
-      >
+    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/85 shadow-[0_10px_40px_rgba(15,23,42,0.08)] backdrop-blur-2xl">
+      <nav aria-label="Primary navigation" className="section-shell py-4">
         <div className="flex items-center justify-between gap-4">
           <Link
             href="/"
             aria-label="Sarav Motors home"
-            className="flex items-center gap-3"
+            className="group flex items-center gap-3"
             onClick={() => setIsOpen(false)}
           >
-            <Image
-              src="/favicon.ico"
-              alt="Sarav Motors icon"
-              width={44}
-              height={44}
-              priority
-              className="h-11 w-11 rounded-xl object-contain"
-            />
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 group-hover:border-[var(--color-brand)]">
+              <Image
+                src="/favicon.ico"
+                alt="Sarav Motors icon"
+                width={44}
+                height={44}
+                priority
+                className="h-9 w-9 rounded-xl object-contain"
+              />
+            </div>
 
-            <span className="text-base font-semibold tracking-wide text-[var(--color-ink)] sm:text-lg">
-              Sarav Motors
-            </span>
+            <div>
+              <span className="block text-base font-black tracking-[-0.03em] text-black sm:text-lg">
+                Sarav Motors
+              </span>
+              <span className="hidden text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500 sm:block">
+                Braeside Automotive Care
+              </span>
+            </div>
           </Link>
 
           <button
@@ -53,7 +54,7 @@ export default function Navbar() {
             aria-label="Toggle navigation menu"
             aria-expanded={isOpen}
             onClick={() => setIsOpen((prev) => !prev)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--color-navy-border)] bg-[var(--color-hover-overlay)] text-[var(--color-ink)] transition hover:bg-[var(--color-brand)] md:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 bg-white text-black shadow-sm transition hover:border-[var(--color-brand)] hover:text-[var(--color-brand)] md:hidden"
           >
             <span className="sr-only">Open menu</span>
             <span className="flex flex-col gap-1.5">
@@ -84,10 +85,10 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`rounded-full border px-4 py-2.5 transition duration-300 ${
+                  className={`rounded-full border px-4 py-2.5 font-semibold transition duration-300 ${
                     isActive
-                      ? 'border-[var(--color-navy-border)] bg-[var(--color-hover-overlay)] text-[var(--color-brand-light)]'
-                      : 'border-transparent text-[var(--color-ink-muted)] hover:border-[var(--color-navy-border)] hover:bg-[var(--color-hover-overlay)] hover:text-[var(--color-brand-light)]'
+                      ? 'border-[var(--color-brand)] bg-blue-50 text-[var(--color-brand)]'
+                      : 'border-transparent text-gray-600 hover:border-gray-200 hover:bg-white hover:text-[var(--color-brand)]'
                   }`}
                 >
                   {link.label}
@@ -97,7 +98,7 @@ export default function Navbar() {
 
             <a
               href="tel:+61452066583"
-              className="rounded-full border border-[var(--color-brand)] bg-[var(--color-brand)] px-5 py-2.5 font-semibold text-[var(--color-ink)] transition duration-300 hover:bg-[var(--color-brand-hover)]"
+              className="ml-2 rounded-full bg-[var(--color-brand)] px-5 py-2.5 font-bold text-white shadow-[0_12px_30px_rgba(37,99,235,0.25)] transition duration-300 hover:-translate-y-0.5 hover:bg-[var(--color-brand-hover)]"
             >
               Call Now
             </a>
@@ -109,7 +110,7 @@ export default function Navbar() {
             isOpen ? 'max-h-96 pt-5 opacity-100' : 'max-h-0 opacity-0'
           }`}
         >
-          <div className="flex flex-col gap-3 rounded-2xl border border-[var(--color-navy-border)] bg-[rgba(10,22,40,0.96)] p-4 shadow-xl">
+          <div className="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white/95 p-4 shadow-xl backdrop-blur-2xl">
             {links.map((link) => {
               const isActive = pathname === link.href;
 
@@ -119,10 +120,10 @@ export default function Navbar() {
                   href={link.href}
                   aria-current={isActive ? 'page' : undefined}
                   onClick={() => setIsOpen(false)}
-                  className={`rounded-xl border px-4 py-3 text-sm font-medium transition duration-300 ${
+                  className={`rounded-xl border px-4 py-3 text-sm font-bold transition duration-300 ${
                     isActive
-                      ? 'border-[var(--color-brand)] bg-[var(--color-hover-overlay)] text-[var(--color-brand-light)]'
-                      : 'border-[var(--color-navy-border)] text-[var(--color-ink-muted)] hover:bg-[var(--color-hover-overlay)] hover:text-[var(--color-brand-light)]'
+                      ? 'border-[var(--color-brand)] bg-blue-50 text-[var(--color-brand)]'
+                      : 'border-gray-200 text-gray-700 hover:bg-blue-50 hover:text-[var(--color-brand)]'
                   }`}
                 >
                   {link.label}
@@ -132,7 +133,7 @@ export default function Navbar() {
 
             <a
               href="tel:+61452066583"
-              className="rounded-xl border border-[var(--color-brand)] bg-[var(--color-brand)] px-5 py-3 text-center font-semibold text-[var(--color-ink)] transition duration-300 hover:bg-[var(--color-brand-hover)]"
+              className="rounded-xl bg-[var(--color-brand)] px-5 py-3 text-center font-bold text-white shadow-[0_12px_30px_rgba(37,99,235,0.25)] transition duration-300 hover:bg-[var(--color-brand-hover)]"
             >
               Call Now
             </a>

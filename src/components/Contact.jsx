@@ -2,153 +2,101 @@
 
 'use client';
 
-import Image from 'next/image';
 import { motion } from 'framer-motion';
+import {
+  Calendar,
+  Search,
+  Wrench,
+  Car,
+} from 'lucide-react';
 
-const easing = /** @type {[number, number, number, number]} */ ([0.22, 1, 0.36, 1]);
+const steps = [
+  {
+    icon: Calendar,
+    title: 'Book Your Service',
+    description:
+      'Contact us online or by phone to arrange a convenient appointment.',
+  },
+  {
+    icon: Search,
+    title: 'Vehicle Inspection',
+    description:
+      'We inspect your vehicle, diagnose any issues, and explain our findings.',
+  },
+  {
+    icon: Wrench,
+    title: 'Professional Repairs',
+    description:
+      'Our technicians complete servicing and repairs using quality parts and proven methods.',
+  },
+  {
+    icon: Car,
+    title: 'Back On The Road',
+    description:
+      'Your vehicle is returned ready to drive with confidence and peace of mind.',
+  },
+];
 
-const reveal = {
-  hidden: { opacity: 0, y: 24 },
-  visible: (delay = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.85,
-      ease: easing,
-      delay,
-    },
-  }),
-};
-
-export default function WorkshopGarage() {
+export default function CustomerJourney() {
   return (
     <section
-      id="workshop"
-      aria-labelledby="workshop-heading"
-      className="bg-white py-[var(--section-space)]"
+      id="process"
+      className="relative overflow-hidden border-b border-gray-200 bg-white py-[var(--section-space)]"
     >
       <div className="section-shell">
-        {/* Heading */}
-        <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            custom={0}
-            variants={reveal}
-          >
-            <p className="text-[11px] font-semibold tracking-[0.24em] uppercase text-orange-600">
-              Workshop & Garage
-            </p>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mx-auto max-w-4xl text-center"
+        >
+          <p className="inline-flex rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-brand)]">
+            Our Process
+          </p>
 
-            <h2
-              id="workshop-heading"
-              className="mt-5 max-w-xl text-[2.8rem] leading-[0.95] font-bold tracking-[-0.06em] text-black"
-            >
-              Precision mechanical servicing backed by a modern workshop environment.
-            </h2>
-          </motion.div>
+          <h2 className="mt-6 text-[2.8rem] font-black tracking-[-0.06em] text-black sm:text-[4rem]">
+            Simple, Transparent Automotive Care
+          </h2>
 
-          <motion.p
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            custom={0.08}
-            variants={reveal}
-            className="max-w-2xl text-[1rem] leading-8 text-gray-600"
-          >
-            Sarav Motors combines professional workshop capability with responsive
-            mobile support, delivering reliable diagnostics, repairs, battery
-            replacement, and hands-on mechanical servicing with a premium customer
-            experience.
-          </motion.p>
-        </div>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            From booking to completion, we make vehicle servicing easy,
+            straightforward, and stress-free.
+          </p>
+        </motion.div>
 
-        {/* Cards */}
-        <div className="mt-16 grid gap-6 lg:grid-cols-[1.12fr_0.88fr]">
-          {/* Main Workshop Card */}
-          <motion.article
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            custom={0.04}
-            variants={reveal}
-            className="overflow-hidden rounded-[2rem] bg-white"
-          >
-            <div className="relative aspect-[16/10] overflow-hidden rounded-[2rem]">
-              <Image
-                src="/images/maintainence.png"
-                alt="Sarav Motors technician working inside the workshop garage"
-                width={1600}
-                height={1000}
-                priority
-                className="h-full w-full object-cover transition duration-[1600ms] ease-out hover:scale-[1.03]"
-                sizes="(max-width: 1024px) 100vw, 60vw"
-              />
+        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {steps.map((step, index) => {
+            const Icon = step.icon;
 
-              <div className="absolute inset-0 bg-black/40" />
+            return (
+              <motion.div
+                key={step.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="group rounded-[2rem] border border-gray-200 bg-white p-8 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
+              >
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-[var(--color-brand)] transition duration-300 group-hover:bg-[var(--color-brand)] group-hover:text-white">
+                  <Icon size={26} />
+                </div>
 
-              <div className="absolute bottom-0 left-0 right-0 p-7 sm:p-9">
-                <p className="text-[11px] uppercase tracking-[0.28em] text-orange-300">
-                  Mechanical Repairs
-                </p>
+                <div className="mt-6">
+                  <span className="text-sm font-bold text-[var(--color-brand)]">
+                    Step {index + 1}
+                  </span>
 
-                <h3 className="mt-3 max-w-xl text-[1.9rem] leading-[1.02] font-semibold tracking-[-0.045em] text-white">
-                  Workshop servicing focused on precision, reliability, and technical expertise.
-                </h3>
-              </div>
-            </div>
+                  <h3 className="mt-2 text-xl font-black text-black">
+                    {step.title}
+                  </h3>
 
-            <div className="pt-6">
-              <p className="text-sm leading-7 text-gray-600">
-                From engine diagnostics and routine servicing to complex repairs and
-                inspections, the Sarav Motors workshop is built to deliver dependable
-                mechanical solutions with modern tools, experienced technicians, and
-                attention to detail.
-              </p>
-            </div>
-          </motion.article>
-
-          {/* Mobile Support Card */}
-          <motion.article
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            custom={0.1}
-            variants={reveal}
-            className="overflow-hidden rounded-[2rem] bg-white"
-          >
-            <div className="relative aspect-[4/5] lg:aspect-[5/6] overflow-hidden rounded-[2rem]">
-              <Image
-                src="/images/sarav-mobile-battery-replacement(2).jpeg"
-                alt="Sarav Motors mobile support and battery replacement service"
-                width={1200}
-                height={1400}
-                className="h-full w-full object-cover transition duration-[1600ms] ease-out hover:scale-[1.03]"
-                sizes="(max-width: 1024px) 100vw, 40vw"
-              />
-
-              <div className="absolute inset-0 bg-black/40" />
-
-              <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-7">
-                <p className="text-[11px] uppercase tracking-[0.28em] text-orange-300">
-                  Mobile Assistance
-                </p>
-
-                <h3 className="mt-3 text-[1.45rem] leading-[1.08] font-semibold tracking-[-0.04em] text-white">
-                  Fast roadside support and battery replacement when customers need immediate help.
-                </h3>
-              </div>
-            </div>
-
-            <div className="pt-6">
-              <p className="text-sm leading-7 text-gray-600">
-                The mobile service division extends the workshop experience directly
-                to customers, providing rapid support, battery replacement,
-                diagnostics, and on-site mechanical assistance across the local area.
-              </p>
-            </div>
-          </motion.article>
+                  <p className="mt-3 leading-7 text-gray-600">
+                    {step.description}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

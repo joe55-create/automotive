@@ -3,6 +3,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Mail, MapPin, Phone, ShieldCheck } from 'lucide-react';
 import { useRef, useState } from 'react';
 
 import { reportError } from '@/lib/monitoring';
@@ -10,74 +11,29 @@ import { quoteSchema } from '@/lib/quote-schema';
 
 const easing = /** @type {[number, number, number, number]} */ ([0.22, 1, 0.36, 1]);
 
-/**
- * @param {'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'} headingLevel
- * @param {string} headingId
- * @param {string} text
- * @returns {import('react').ReactElement}
- */
-function renderHeading(headingLevel, headingId, text) {
-  switch (headingLevel) {
-    case 'h1':
-      return (
-        <h1 id={headingId} className="section-heading mt-4 text-[var(--color-ink)]">
-          {text}
-        </h1>
-      );
-    case 'h3':
-      return (
-        <h3 id={headingId} className="section-heading mt-4 text-[var(--color-ink)]">
-          {text}
-        </h3>
-      );
-    case 'h4':
-      return (
-        <h4 id={headingId} className="section-heading mt-4 text-[var(--color-ink)]">
-          {text}
-        </h4>
-      );
-    case 'h5':
-      return (
-        <h5 id={headingId} className="section-heading mt-4 text-[var(--color-ink)]">
-          {text}
-        </h5>
-      );
-    case 'h6':
-      return (
-        <h6 id={headingId} className="section-heading mt-4 text-[var(--color-ink)]">
-          {text}
-        </h6>
-      );
-    case 'h2':
-    default:
-      return (
-        <h2 id={headingId} className="section-heading mt-4 text-[var(--color-ink)]">
-          {text}
-        </h2>
-      );
-  }
+function Heading({ level = 'h2', id, children }) {
+  const Tag = level;
+
+  return (
+    <Tag
+      id={id}
+      className="mt-6 max-w-4xl text-[2.55rem] leading-[1] font-black tracking-[-0.06em] text-black sm:text-[3.4rem] lg:text-[4.4rem]"
+    >
+      {children}
+    </Tag>
+  );
 }
 
-/**
- * @param {{
- *   services: { title: string }[];
- *   headingLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
- *   headingId?: string;
- * }} props
- * @returns {import('react').ReactElement}
- */
-export default function QuoteForm({ services, headingLevel = 'h2', headingId = 'quote-heading' }) {
-  const formRef = useRef(/** @type {HTMLFormElement | null} */ (null));
+export default function QuoteForm({
+  services,
+  headingLevel = 'h2',
+  headingId = 'quote-heading',
+}) {
+  const formRef = useRef(null);
   const [isSending, setIsSending] = useState(false);
   const [status, setStatus] = useState({ type: '', message: '' });
-  const [fieldErrors, setFieldErrors] = useState(
-    /** @type {Record<string, string | undefined>} */ ({})
-  );
+  const [fieldErrors, setFieldErrors] = useState({});
 
-  /**
-   * @param {Record<string, string[] | undefined>} errors
-   * @returns {Record<string, string | undefined>}
-   */
   function normalizeFieldErrors(errors) {
     return {
       name: errors.name?.[0],
@@ -90,17 +46,11 @@ export default function QuoteForm({ services, headingLevel = 'h2', headingId = '
     };
   }
 
-  /**
-   * @param {import('react').FormEvent<HTMLFormElement>} event
-   * @returns {Promise<void>}
-   */
   async function handleSubmit(event) {
     event.preventDefault();
 
     const form = formRef.current;
-    if (!form) {
-      return;
-    }
+    if (!form) return;
 
     const formData = new FormData(form);
     const payload = Object.fromEntries(formData.entries());
@@ -122,13 +72,10 @@ export default function QuoteForm({ services, headingLevel = 'h2', headingId = '
     try {
       const response = await fetch('/api/quote', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(parsed.data),
       });
 
-      /** @type {{ message?: string; fieldErrors?: Record<string, string[] | undefined> }} */
       const result = await response.json();
 
       if (!response.ok) {
@@ -169,94 +116,80 @@ export default function QuoteForm({ services, headingLevel = 'h2', headingId = '
     <section
       id="quote"
       aria-labelledby={headingId}
-      className="border-b border-[var(--color-divider)] py-[var(--section-space)]"
+      className="relative overflow-hidden border-b border-gray-200 bg-white py-[var(--section-space)]"
     >
-      <div className="section-shell grid gap-12 lg:grid-cols-[0.86fr_1.14fr]">
+      <div className="pointer-events-none absolute left-[-12rem] top-[-10rem] h-[28rem] w-[28rem] rounded-full bg-blue-500/10 blur-3xl" />
+      <div className="pointer-events-none absolute bottom-[-12rem] right-[-10rem] h-[30rem] w-[30rem] rounded-full bg-orange-400/10 blur-3xl" />
+
+      <div className="section-shell relative z-10 grid gap-12 lg:grid-cols-[0.86fr_1.14fr]">
         <motion.div
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 0.82, ease: easing }}
         >
-          <p className="section-label text-[11px] font-semibold">Get A Quote</p>
-          {renderHeading(
-            headingLevel,
-            headingId,
-            'Send the details once. Get a practical response without chasing.'
-          )}
-          <div className="mt-10 space-y-4 text-sm text-[var(--color-ink-soft)]">
-            <div className="glass-panel rounded-[1.6rem] p-6">
-              <p className="text-[11px] uppercase tracking-[0.26em] text-[var(--color-ink-muted)]">
-                Phone
-              </p>
-              <a
-                href="tel:0452066583"
-                className="mt-3 block text-[1.25rem] font-semibold tracking-[-0.02em] text-[var(--color-brand-light)]"
-              >
-                0452066583
-              </a>
-            </div>
-            <div className="glass-panel rounded-[1.6rem] p-6">
-              <p className="text-[11px] uppercase tracking-[0.26em] text-[var(--color-ink-muted)]">
-                Email
-              </p>
-              <a
-                href="mailto:saravmotors@gmail.com"
-                className="mt-3 block text-[1.12rem] font-semibold tracking-[-0.02em] text-[var(--color-brand-light)]"
-              >
-                saravmotors@gmail.com
-              </a>
-            </div>
-            <div className="glass-panel rounded-[1.6rem] p-6">
-              <p className="text-[11px] uppercase tracking-[0.26em] text-[var(--color-ink-muted)]">
-                Location
-              </p>
-              <p className="mt-3 text-[1.12rem] leading-8 font-semibold tracking-[-0.02em] text-[var(--color-ink)]">
-                3/356 Lower Dandenong Rd, Braeside VIC 3195, Australia
-              </p>
-            </div>
+          <p className="inline-flex rounded-full border border-blue-200 bg-white px-4 py-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-brand)] shadow-sm">
+            Get A Quote
+          </p>
+
+          <Heading level={headingLevel} id={headingId}>
+            Tell us what your vehicle needs. We’ll respond with practical next steps.
+          </Heading>
+
+          <p className="mt-7 max-w-2xl text-[1.05rem] leading-8 text-gray-700">
+            Send your details once and Sarav Motors will review your request, confirm the
+            right service pathway, and get back to you with clear advice.
+          </p>
+
+          <div className="mt-10 grid gap-4">
+            <ContactCard
+              icon={Phone}
+              label="Phone"
+              value="0452 066 583"
+              href="tel:0452066583"
+            />
+            <ContactCard
+              icon={Mail}
+              label="Email"
+              value="saravmotors@gmail.com"
+              href="mailto:saravmotors@gmail.com"
+            />
+            <ContactCard
+              icon={MapPin}
+              label="Location"
+              value="3/356 Lower Dandenong Rd, Braeside VIC 3195, Australia"
+            />
+          </div>
+
+          <div className="mt-6 flex items-start gap-3 rounded-[1.5rem] border border-gray-200 bg-white p-5 shadow-[0_14px_45px_rgba(15,23,42,0.08)]">
+            <ShieldCheck
+              size={24}
+              strokeWidth={2.3}
+              className="mt-0.5 shrink-0 text-[var(--color-brand)]"
+            />
+            <p className="text-sm font-semibold leading-6 text-gray-700">
+              Your enquiry is reviewed by the Sarav Motors team before any work is recommended.
+            </p>
           </div>
         </motion.div>
 
         <motion.form
           ref={formRef}
           onSubmit={handleSubmit}
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.82, ease: easing, delay: 0.05 }}
-          className="glass-panel rounded-[2rem] p-6 sm:p-9"
+          className="rounded-[2rem] border border-gray-200 bg-white p-6 shadow-[0_25px_90px_rgba(15,23,42,0.10)] sm:p-9"
           noValidate
         >
           <div className="grid gap-5 sm:grid-cols-2">
-            <Field
-              id="name"
-              label="Full Name"
-              name="name"
-              autoComplete="name"
-              error={fieldErrors.name}
-              required
-            />
-            <Field
-              id="phone"
-              label="Phone"
-              name="phone"
-              type="tel"
-              autoComplete="tel"
-              error={fieldErrors.phone}
-              required
-            />
-            <Field
-              id="email"
-              label="Email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              error={fieldErrors.email}
-              required
-            />
+            <Field id="name" label="Full Name" name="name" autoComplete="name" error={fieldErrors.name} required />
+            <Field id="phone" label="Phone" name="phone" type="tel" autoComplete="tel" error={fieldErrors.phone} required />
+            <Field id="email" label="Email" name="email" type="email" autoComplete="email" error={fieldErrors.email} required />
+
             <div className="space-y-2">
-              <label htmlFor="service" className="text-sm text-[var(--color-ink-soft)]">
+              <label htmlFor="service" className="text-sm font-semibold text-gray-700">
                 Service
               </label>
               <select
@@ -266,23 +199,19 @@ export default function QuoteForm({ services, headingLevel = 'h2', headingId = '
                 defaultValue=""
                 aria-describedby={fieldErrors.service ? 'service-error' : undefined}
                 aria-invalid={Boolean(fieldErrors.service)}
-                className="w-full rounded-2xl border border-[var(--color-ink-muted)] bg-[var(--color-surface-overlay)] px-4 py-3.5 text-sm text-[var(--color-ink)] outline-none transition duration-300 placeholder:text-[var(--color-ink-muted)] focus:border-[var(--color-brand)] focus:ring-2 focus:ring-[var(--color-brand)]"
+                className="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-black outline-none transition duration-300 focus:border-[var(--color-brand)] focus:ring-2 focus:ring-blue-100"
               >
-                <option value="" disabled className="bg-[var(--color-navy-surface)]">
+                <option value="" disabled>
                   Select a service
                 </option>
                 {services.map((service) => (
-                  <option
-                    key={service.title}
-                    value={service.title}
-                    className="bg-[var(--color-navy-surface)]"
-                  >
+                  <option key={service.title} value={service.title}>
                     {service.title}
                   </option>
                 ))}
               </select>
               {fieldErrors.service ? (
-                <p id="service-error" className="text-sm text-[var(--color-state-danger)]">
+                <p id="service-error" className="text-sm text-red-600">
                   {fieldErrors.service}
                 </p>
               ) : null}
@@ -301,7 +230,7 @@ export default function QuoteForm({ services, headingLevel = 'h2', headingId = '
           </div>
 
           <div className="mt-5 space-y-2">
-            <label htmlFor="message" className="text-sm text-[var(--color-ink-soft)]">
+            <label htmlFor="message" className="text-sm font-semibold text-gray-700">
               Message
             </label>
             <textarea
@@ -312,10 +241,10 @@ export default function QuoteForm({ services, headingLevel = 'h2', headingId = '
               placeholder="Tell us what your vehicle needs, any symptoms, and your preferred timing."
               aria-describedby={fieldErrors.message ? 'message-error' : undefined}
               aria-invalid={Boolean(fieldErrors.message)}
-              className="w-full rounded-[1.5rem] border border-[var(--color-ink-muted)] bg-[var(--color-surface-overlay)] px-4 py-3.5 text-sm leading-7 text-[var(--color-ink)] outline-none transition duration-300 placeholder:text-[var(--color-ink-muted)] focus:border-[var(--color-brand)] focus:ring-2 focus:ring-[var(--color-brand)]"
+              className="w-full rounded-[1.5rem] border border-gray-200 bg-white px-4 py-3.5 text-sm leading-7 text-black outline-none transition duration-300 placeholder:text-gray-400 focus:border-[var(--color-brand)] focus:ring-2 focus:ring-blue-100"
             />
             {fieldErrors.message ? (
-              <p id="message-error" className="text-sm text-[var(--color-state-danger)]">
+              <p id="message-error" className="text-sm text-red-600">
                 {fieldErrors.message}
               </p>
             ) : null}
@@ -330,21 +259,22 @@ export default function QuoteForm({ services, headingLevel = 'h2', headingId = '
             <button
               type="submit"
               disabled={isSending}
-              className="inline-flex items-center justify-center rounded-full bg-[var(--color-brand)] px-6 py-3.5 text-sm font-semibold text-[var(--color-ink)] transition duration-300 hover:bg-[var(--color-brand-hover)] disabled:cursor-not-allowed disabled:opacity-70"
+              className="inline-flex items-center justify-center rounded-full bg-[var(--color-brand)] px-7 py-3.5 text-sm font-bold text-white shadow-[0_14px_35px_rgba(37,99,235,0.25)] transition duration-300 hover:-translate-y-0.5 hover:bg-[var(--color-brand-hover)] disabled:cursor-not-allowed disabled:opacity-70"
             >
               {isSending ? 'Sending...' : 'Request Quote'}
             </button>
-            <p className="text-sm text-[var(--color-ink-muted)]">
+
+            <p className="text-sm font-medium text-gray-500">
               Required fields are validated before submission.
             </p>
           </div>
 
           {status.message ? (
             <p
-              className={`mt-5 rounded-2xl border px-4 py-3 text-sm ${
+              className={`mt-5 rounded-2xl border px-4 py-3 text-sm font-medium ${
                 status.type === 'success'
-                  ? 'border-[var(--color-state-success)] bg-[rgba(16,185,129,0.12)] text-[var(--color-ink-soft)]'
-                  : 'border-[var(--color-state-danger)] bg-[rgba(239,68,68,0.12)] text-[var(--color-state-danger)]'
+                  ? 'border-emerald-300 bg-emerald-50 text-emerald-700'
+                  : 'border-red-300 bg-red-50 text-red-700'
               }`}
               role="status"
               aria-live="polite"
@@ -358,22 +288,28 @@ export default function QuoteForm({ services, headingLevel = 'h2', headingId = '
   );
 }
 
-/**
- * @param {{
- *   id: string;
- *   label: string;
- *   name: string;
- *   type?: string;
- *   autoComplete?: string;
- *   required?: boolean;
- *   error?: string;
- * }} props
- * @returns {import('react').ReactElement}
- */
+function ContactCard({ icon: Icon, label, value, href }) {
+  const content = (
+    <div className="group flex items-start gap-4 rounded-[1.5rem] border border-gray-200 bg-white p-5 shadow-[0_14px_45px_rgba(15,23,42,0.08)] transition duration-500 hover:-translate-y-1 hover:border-[var(--color-brand)]/40">
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-[var(--color-brand)] transition duration-300 group-hover:bg-[var(--color-brand)] group-hover:text-white">
+        <Icon size={22} strokeWidth={2.3} />
+      </div>
+      <div>
+        <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-gray-500">
+          {label}
+        </p>
+        <p className="mt-2 text-[1.05rem] font-bold leading-7 text-black">{value}</p>
+      </div>
+    </div>
+  );
+
+  return href ? <a href={href}>{content}</a> : content;
+}
+
 function Field({ id, label, name, type = 'text', autoComplete, required = false, error }) {
   return (
     <div className="space-y-2">
-      <label htmlFor={id} className="text-sm text-[var(--color-ink-soft)]">
+      <label htmlFor={id} className="text-sm font-semibold text-gray-700">
         {label}
       </label>
       <input
@@ -384,10 +320,10 @@ function Field({ id, label, name, type = 'text', autoComplete, required = false,
         required={required}
         aria-describedby={error ? `${id}-error` : undefined}
         aria-invalid={Boolean(error)}
-        className="w-full rounded-2xl border border-[var(--color-ink-muted)] bg-[var(--color-surface-overlay)] px-4 py-3.5 text-sm text-[var(--color-ink)] outline-none transition duration-300 placeholder:text-[var(--color-ink-muted)] focus:border-[var(--color-brand)] focus:ring-2 focus:ring-[var(--color-brand)]"
+        className="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-black outline-none transition duration-300 placeholder:text-gray-400 focus:border-[var(--color-brand)] focus:ring-2 focus:ring-blue-100"
       />
       {error ? (
-        <p id={`${id}-error`} className="text-sm text-[var(--color-state-danger)]">
+        <p id={`${id}-error`} className="text-sm text-red-600">
           {error}
         </p>
       ) : null}

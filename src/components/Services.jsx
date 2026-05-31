@@ -98,6 +98,13 @@ const mobileService = {
   ],
 };
 
+/**
+ * @param {{
+ *   headingLevel?: 'h1' | 'h2';
+ *   headingId?: string;
+ * }} props
+ * @returns {import('react').ReactElement}
+ */
 export default function Services({
   headingLevel = 'h2',
   headingId = 'services-heading',
@@ -110,12 +117,18 @@ export default function Services({
   useEffect(() => {
     if (!isOpen) return undefined;
 
+    /**
+     * @param {MouseEvent} event
+     */
     const handleClickOutside = (event) => {
       if (!dropdownRef.current?.contains(/** @type {Node} */ (event.target))) {
         setIsOpen(false);
       }
     };
 
+    /**
+     * @param {KeyboardEvent} event
+     */
     const handleEscape = (event) => {
       if (event.key === 'Escape') {
         setIsOpen(false);
@@ -130,8 +143,6 @@ export default function Services({
       document.removeEventListener('keydown', handleEscape);
     };
   }, [isOpen]);
-
-  const Heading = headingLevel === 'h1' ? 'h1' : 'h2';
 
   return (
     <section
@@ -166,17 +177,31 @@ export default function Services({
             Premium Workshop Services
           </p>
 
-          <Heading
-            id={headingId}
-            className="mt-6 max-w-6xl text-[3rem] leading-[0.9] font-black tracking-[-0.08em] text-black sm:text-[4.5rem] lg:text-[5.8rem]"
-          >
-            Professional servicing,
-            <br />
-            diagnostics and repairs
-            <span className="block text-[var(--color-brand)]">
-              delivered with confidence.
-            </span>
-          </Heading>
+          {headingLevel === 'h1' ? (
+            <h1
+              id={headingId}
+              className="mt-6 max-w-6xl text-[3rem] leading-[0.9] font-black tracking-[-0.08em] text-black sm:text-[4.5rem] lg:text-[5.8rem]"
+            >
+              Professional servicing,
+              <br />
+              diagnostics and repairs
+              <span className="block text-[var(--color-brand)]">
+                delivered with confidence.
+              </span>
+            </h1>
+          ) : (
+            <h2
+              id={headingId}
+              className="mt-6 max-w-6xl text-[3rem] leading-[0.9] font-black tracking-[-0.08em] text-black sm:text-[4.5rem] lg:text-[5.8rem]"
+            >
+              Professional servicing,
+              <br />
+              diagnostics and repairs
+              <span className="block text-[var(--color-brand)]">
+                delivered with confidence.
+              </span>
+            </h2>
+          )}
 
           <p className="mt-8 max-w-3xl text-[1.08rem] leading-8 text-gray-700 sm:text-lg">
             From routine maintenance to complex mechanical repairs, Sarav Motors

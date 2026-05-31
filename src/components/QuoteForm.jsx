@@ -11,15 +11,33 @@ import { quoteSchema } from '@/lib/quote-schema';
 
 const easing = /** @type {[number, number, number, number]} */ ([0.22, 1, 0.36, 1]);
 
-export default function QuoteForm({
-  services,
-  headingId = 'quote-heading',
-}) {
+/**
+ * @param {{
+ *   services: { title: string }[];
+ *   headingId?: string;
+ * }} props
+ * @returns {import('react').ReactElement}
+ */
+export default function QuoteForm({ services, headingId = 'quote-heading' }) {
+  /** @type {import('react').RefObject<HTMLFormElement | null>} */
   const formRef = useRef(null);
-  const [isSending, setIsSending] = useState(false);
-  const [status, setStatus] = useState({ type: '', message: '' });
-  const [fieldErrors, setFieldErrors] = useState({});
 
+  const [isSending, setIsSending] = useState(false);
+  const [status, setStatus] = useState(
+    /** @type {{ type: 'success' | 'error' | ''; message: string }} */ ({
+      type: '',
+      message: '',
+    })
+  );
+
+  const [fieldErrors, setFieldErrors] = useState(
+    /** @type {Record<string, string | undefined>} */ ({})
+  );
+
+  /**
+   * @param {Record<string, string[] | undefined>} errors
+   * @returns {Record<string, string | undefined>}
+   */
   function normalizeFieldErrors(errors) {
     return {
       name: errors.name?.[0],
@@ -32,6 +50,10 @@ export default function QuoteForm({
     };
   }
 
+  /**
+   * @param {import('react').FormEvent<HTMLFormElement>} event
+   * @returns {Promise<void>}
+   */
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -62,6 +84,7 @@ export default function QuoteForm({
         body: JSON.stringify(parsed.data),
       });
 
+      /** @type {{ message?: string; fieldErrors?: Record<string, string[] | undefined> }} */
       const result = await response.json();
 
       if (!response.ok) {
@@ -80,6 +103,7 @@ export default function QuoteForm({
       }
 
       form.reset();
+
       setStatus({
         type: 'success',
         message:
@@ -89,9 +113,11 @@ export default function QuoteForm({
       });
     } catch (error) {
       reportError(error, { source: 'QuoteForm.handleSubmit' });
+
       setStatus({
         type: 'error',
-        message: 'We could not send your request right now. Please try again or call 0452 066 583.',
+        message:
+          'We could not send your request right now. Please try again or call 0452 066 583.',
       });
     } finally {
       setIsSending(false);
@@ -126,14 +152,31 @@ export default function QuoteForm({
           </h2>
 
           <p className="mt-7 max-w-2xl text-[1.05rem] leading-8 text-gray-700">
-            Send your details once and Sarav Motors will review your request, confirm the
-            right service pathway, and get back to you with clear advice.
+            Send your details once and Sarav Motors will review your request,
+            confirm the right service pathway, and get back to you with clear
+            advice.
           </p>
 
           <div className="mt-10 grid gap-4">
-            <ContactCard icon={Phone} label="Phone" value="0452 066 583" href="tel:0452066583" />
-            <ContactCard icon={Mail} label="Email" value="saravmotors@gmail.com" href="mailto:saravmotors@gmail.com" />
-            <ContactCard icon={MapPin} label="Location" value="3/356 Lower Dandenong Rd, Braeside VIC 3195, Australia" />
+            <ContactCard
+              icon={Phone}
+              label="Phone"
+              value="0452 066 583"
+              href="tel:0452066583"
+            />
+
+            <ContactCard
+              icon={Mail}
+              label="Email"
+              value="saravmotors@gmail.com"
+              href="mailto:saravmotors@gmail.com"
+            />
+
+            <ContactCard
+              icon={MapPin}
+              label="Location"
+              value="3/356 Lower Dandenong Rd, Braeside VIC 3195, Australia"
+            />
           </div>
 
           <div className="mt-6 flex items-start gap-3 rounded-[1.5rem] border border-gray-200 bg-white p-5 shadow-[0_14px_45px_rgba(15,23,42,0.08)]">
@@ -142,8 +185,10 @@ export default function QuoteForm({
               strokeWidth={2.3}
               className="mt-0.5 shrink-0 text-[var(--color-brand)]"
             />
+
             <p className="text-sm font-semibold leading-6 text-gray-700">
-              Your enquiry is reviewed by the Sarav Motors team before any work is recommended.
+              Your enquiry is reviewed by the Sarav Motors team before any work
+              is recommended.
             </p>
           </div>
         </motion.div>
@@ -159,14 +204,40 @@ export default function QuoteForm({
           noValidate
         >
           <div className="grid gap-5 sm:grid-cols-2">
-            <Field id="name" label="Full Name" name="name" autoComplete="name" error={fieldErrors.name} required />
-            <Field id="phone" label="Phone" name="phone" type="tel" autoComplete="tel" error={fieldErrors.phone} required />
-            <Field id="email" label="Email" name="email" type="email" autoComplete="email" error={fieldErrors.email} required />
+            <Field
+              id="name"
+              label="Full Name"
+              name="name"
+              autoComplete="name"
+              error={fieldErrors.name}
+              required
+            />
+
+            <Field
+              id="phone"
+              label="Phone"
+              name="phone"
+              type="tel"
+              autoComplete="tel"
+              error={fieldErrors.phone}
+              required
+            />
+
+            <Field
+              id="email"
+              label="Email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              error={fieldErrors.email}
+              required
+            />
 
             <div className="space-y-2">
               <label htmlFor="service" className="text-sm font-semibold text-gray-700">
                 Service
               </label>
+
               <select
                 id="service"
                 name="service"
@@ -179,12 +250,14 @@ export default function QuoteForm({
                 <option value="" disabled>
                   Select a service
                 </option>
+
                 {services.map((service) => (
                   <option key={service.title} value={service.title}>
                     {service.title}
                   </option>
                 ))}
               </select>
+
               {fieldErrors.service ? (
                 <p id="service-error" className="text-sm text-red-600">
                   {fieldErrors.service}
@@ -194,13 +267,21 @@ export default function QuoteForm({
           </div>
 
           <div className="mt-5">
-            <Field id="car_model" label="Car Model" name="car_model" autoComplete="off" error={fieldErrors.car_model} required />
+            <Field
+              id="car_model"
+              label="Car Model"
+              name="car_model"
+              autoComplete="off"
+              error={fieldErrors.car_model}
+              required
+            />
           </div>
 
           <div className="mt-5 space-y-2">
             <label htmlFor="message" className="text-sm font-semibold text-gray-700">
               Message
             </label>
+
             <textarea
               id="message"
               name="message"
@@ -211,6 +292,7 @@ export default function QuoteForm({
               aria-invalid={Boolean(fieldErrors.message)}
               className="w-full rounded-[1.5rem] border border-gray-200 bg-white px-4 py-3.5 text-sm leading-7 text-black outline-none transition duration-300 placeholder:text-gray-400 focus:border-[var(--color-brand)] focus:ring-2 focus:ring-blue-100"
             />
+
             {fieldErrors.message ? (
               <p id="message-error" className="text-sm text-red-600">
                 {fieldErrors.message}
@@ -220,7 +302,13 @@ export default function QuoteForm({
 
           <div className="sr-only" aria-hidden="true">
             <label htmlFor="website">Website</label>
-            <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+            <input
+              id="website"
+              name="website"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+            />
           </div>
 
           <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -256,17 +344,30 @@ export default function QuoteForm({
   );
 }
 
+/**
+ * @param {{
+ *   icon: import('lucide-react').LucideIcon;
+ *   label: string;
+ *   value: string;
+ *   href?: string;
+ * }} props
+ * @returns {import('react').ReactElement}
+ */
 function ContactCard({ icon: Icon, label, value, href }) {
   const content = (
     <div className="group flex items-start gap-4 rounded-[1.5rem] border border-gray-200 bg-white p-5 shadow-[0_14px_45px_rgba(15,23,42,0.08)] transition duration-500 hover:-translate-y-1 hover:border-[var(--color-brand)]/40">
       <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-[var(--color-brand)] transition duration-300 group-hover:bg-[var(--color-brand)] group-hover:text-white">
         <Icon size={22} strokeWidth={2.3} />
       </div>
+
       <div>
         <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-gray-500">
           {label}
         </p>
-        <p className="mt-2 text-[1.05rem] font-bold leading-7 text-black">{value}</p>
+
+        <p className="mt-2 text-[1.05rem] font-bold leading-7 text-black">
+          {value}
+        </p>
       </div>
     </div>
   );
@@ -274,12 +375,33 @@ function ContactCard({ icon: Icon, label, value, href }) {
   return href ? <a href={href}>{content}</a> : content;
 }
 
-function Field({ id, label, name, type = 'text', autoComplete, required = false, error }) {
+/**
+ * @param {{
+ *   id: string;
+ *   label: string;
+ *   name: string;
+ *   type?: string;
+ *   autoComplete?: string;
+ *   required?: boolean;
+ *   error?: string;
+ * }} props
+ * @returns {import('react').ReactElement}
+ */
+function Field({
+  id,
+  label,
+  name,
+  type = 'text',
+  autoComplete,
+  required = false,
+  error,
+}) {
   return (
     <div className="space-y-2">
       <label htmlFor={id} className="text-sm font-semibold text-gray-700">
         {label}
       </label>
+
       <input
         id={id}
         name={name}
@@ -290,6 +412,7 @@ function Field({ id, label, name, type = 'text', autoComplete, required = false,
         aria-invalid={Boolean(error)}
         className="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-black outline-none transition duration-300 placeholder:text-gray-400 focus:border-[var(--color-brand)] focus:ring-2 focus:ring-blue-100"
       />
+
       {error ? (
         <p id={`${id}-error`} className="text-sm text-red-600">
           {error}

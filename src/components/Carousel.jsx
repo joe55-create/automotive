@@ -3,8 +3,9 @@
 'use client';
 
 import Image from 'next/image';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion } from 'framer-motion';
+
+import AnimatedHeading from '@/components/AnimatedHeading';
 
 const easing = /** @type {[number, number, number, number]} */ ([0.22, 1, 0.36, 1]);
 
@@ -22,80 +23,49 @@ const easing = /** @type {[number, number, number, number]} */ ([0.22, 1, 0.36, 
  * @returns {import('react').ReactElement}
  */
 export default function Carousel({ items }) {
-  const sectionRef = useRef(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end end'],
-  });
-
-  const x = useTransform(scrollYProgress, [0, 1], ['3%', '-52%']);
-  const rotate = useTransform(scrollYProgress, [0, 1], ['-0.45deg', '0.45deg']);
-
   return (
     <section
-      ref={sectionRef}
       aria-labelledby="workshop-view-heading"
-      className="relative h-[190vh] overflow-hidden border-b border-gray-200"
+      className="relative border-b border-gray-200 bg-white py-[var(--section-space)]"
     >
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <Image
-          src="/images/sarav-workshop-engine-service.jpeg"
-          alt=""
-          fill
-          priority={false}
-          sizes="100vw"
-          className="object-cover object-center"
-        />
-
-        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/72 to-black/25" />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/45 via-transparent to-black/25" />
-      </div>
-
-      <div className="sticky top-[81px] z-10 overflow-hidden">
-        <div className="section-shell pt-14 pb-9 sm:pt-16 sm:pb-10">
-          <motion.div
-            initial={{ opacity: 0, y: 26 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.35 }}
-            transition={{ duration: 0.85, ease: easing }}
-            className="max-w-4xl"
-          >
-            <p className="inline-flex rounded-full border border-blue-200 bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-brand)] shadow-sm backdrop-blur-md">
-              Workshop View
-            </p>
-
-            <h2
-              id="workshop-view-heading"
-              className="mt-6 max-w-5xl text-[2.65rem] leading-[0.98] font-black tracking-[-0.065em] text-black sm:text-[3.8rem] lg:text-[4.8rem]"
-            >
-              Our top services, trusted by local drivers for everyday care and major repairs.
-            </h2>
-
-            <p className="mt-6 max-w-3xl text-[1.05rem] leading-8 text-gray-800 sm:text-lg">
-              Explore the services that keep Victorian drivers moving, from preventative
-              maintenance and diagnostics to repairs, inspections, and specialist support.
-            </p>
-          </motion.div>
-        </div>
-
+      <div className="section-shell">
         <motion.div
-          style={{ x, rotate }}
-          className="flex w-max items-stretch gap-5 px-6 pb-20 sm:px-8"
+          initial={{ opacity: 0, y: 26 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.35 }}
+          transition={{ duration: 0.85, ease: easing }}
+          className="max-w-3xl"
         >
+          <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gray-500">
+            Workshop View
+          </p>
+
+          <AnimatedHeading
+            as="h2"
+            id="workshop-view-heading"
+            text="Our top services, trusted by local drivers for everyday care and major repairs."
+            className="text-balance mt-4 max-w-3xl text-[2rem] leading-[1.1] font-semibold tracking-[-0.03em] text-[var(--color-ink)] sm:text-[2.6rem] lg:text-[3rem]"
+          />
+
+          <p className="mt-6 max-w-2xl text-[1.05rem] leading-[1.7] text-[var(--color-ink-soft)] sm:text-lg">
+            Explore the services that keep Victorian drivers moving, from preventative
+            maintenance and diagnostics to repairs, inspections, and specialist support.
+          </p>
+        </motion.div>
+
+        <div className="mt-12 grid gap-6 sm:grid-cols-2">
           {items.map((item, index) => (
             <motion.article
               key={item.title}
-              initial={{ opacity: 0, y: 28 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{
-                duration: 0.75,
+                duration: 0.6,
                 ease: easing,
-                delay: Math.min(index * 0.04, 0.24),
+                delay: Math.min(index * 0.05, 0.3),
               }}
-              className="group relative flex w-[72vw] max-w-[390px] shrink-0 flex-col overflow-hidden rounded-[2rem] border border-white/60 bg-white/70 shadow-[0_18px_60px_rgba(15,23,42,0.16)] backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:bg-white/85 hover:shadow-[0_30px_90px_rgba(15,23,42,0.24)] md:w-[31vw] lg:w-[27vw]"
+              className="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:border-[var(--color-brand)] hover:shadow-[0_22px_55px_rgba(15,23,42,0.12)]"
             >
               <div className="relative aspect-[16/10] w-full overflow-hidden">
                 <Image
@@ -104,28 +74,22 @@ export default function Carousel({ items }) {
                   width={item.width}
                   height={item.height}
                   className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                  sizes="(max-width: 768px) 72vw, (max-width: 1024px) 31vw, 27vw"
+                  sizes="(max-width: 640px) 100vw, 50vw"
                 />
-
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20" />
               </div>
 
               <div className="p-5 sm:p-6">
-                <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-brand)]">
-                  {String(index + 1).padStart(2, '0')}
-                </p>
-
-                <h3 className="mt-2 text-[1.2rem] leading-[1.08] font-black tracking-[-0.035em] text-black sm:text-[1.32rem]">
+                <h3 className="text-[1.2rem] leading-[1.15] font-semibold tracking-[-0.01em] text-[var(--color-ink)] sm:text-[1.3rem]">
                   {item.title}
                 </h3>
 
-                <p className="mt-3 max-w-sm text-[0.95rem] leading-7 text-gray-700">
+                <p className="mt-3 text-[0.95rem] leading-7 text-[var(--color-ink-soft)]">
                   {item.caption}
                 </p>
               </div>
             </motion.article>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

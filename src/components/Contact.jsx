@@ -10,6 +10,8 @@ import {
   Car,
 } from 'lucide-react';
 
+import AnimatedHeading from '@/components/AnimatedHeading';
+
 const steps = [
   {
     icon: Calendar,
@@ -54,9 +56,11 @@ export default function CustomerJourney() {
             Our Process
           </p>
 
-          <h2 className="mt-6 text-[2.8rem] font-black tracking-[-0.06em] text-black sm:text-[4rem]">
-            Simple, Transparent Automotive Care
-          </h2>
+          <AnimatedHeading
+            as="h2"
+            text="Simple, Transparent Automotive Care"
+            className="mt-6 text-[2.8rem] font-black tracking-[-0.06em] text-black sm:text-[4rem]"
+          />
 
           <p className="mt-6 text-lg leading-8 text-gray-600">
             From booking to completion, we make vehicle servicing easy,

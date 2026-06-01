@@ -5,6 +5,8 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
+import AnimatedHeading from '@/components/AnimatedHeading';
+
 const easing = /** @type {[number, number, number, number]} */ ([0.22, 1, 0.36, 1]);
 
 export default function LocationSection() {
@@ -40,12 +42,12 @@ export default function LocationSection() {
             Location
           </p>
 
-          <h2
+          <AnimatedHeading
+            as="h2"
             id="location-heading"
+            text="Conveniently Located in Braeside, Victoria"
             className="mt-6 text-[2.8rem] font-black leading-[1] tracking-[-0.06em] text-black sm:text-[4rem] lg:text-[5rem]"
-          >
-            Conveniently Located in Braeside, Victoria
-          </h2>
+          />
 
           <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-gray-700">
             Sarav Motors proudly services Braeside and surrounding suburbs,

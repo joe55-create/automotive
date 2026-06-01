@@ -2,6 +2,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Phone, Star } from 'lucide-react';
+
+import AnimatedHeading from '@/components/AnimatedHeading';
 
 const easing = /** @type {[number, number, number, number]} */ ([0.22, 1, 0.36, 1]);
 
@@ -15,9 +18,19 @@ const fadeUp = {
 };
 
 const trustSignals = [
-  { label: '4.9 Google Rating', icon: '★' },
-  { label: '10+ Years Experience', icon: '•' },
-  { label: 'Logbook Service Approved', icon: '•' },
+  '4.9 Google Rating',
+  '10+ Years Experience',
+  'Logbook Service Approved',
+];
+
+// Official Google logo colours, letter by letter
+const googleColored = [
+  ['G', '#4285F4'],
+  ['o', '#EA4335'],
+  ['o', '#FBBC05'],
+  ['g', '#4285F4'],
+  ['l', '#34A853'],
+  ['e', '#EA4335'],
 ];
 
 export default function Hero() {
@@ -36,58 +49,40 @@ export default function Hero() {
           className="h-full w-full object-cover object-center"
         />
 
-        {/* Elite readable overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/78 to-white/35" />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-white/30" />
+        {/* Calm, even overlay — text area stays clean */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/92 to-white/45" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent" />
       </div>
 
-      {/* Subtle premium glow */}
-      <div className="absolute left-[-12rem] top-[-10rem] h-[28rem] w-[28rem] rounded-full bg-blue-500/10 blur-3xl" />
-      <div className="absolute bottom-[-12rem] right-[-10rem] h-[30rem] w-[30rem] rounded-full bg-orange-400/10 blur-3xl" />
-
       <div className="section-shell relative z-10 flex min-h-[calc(100vh-89px)] items-center py-20 sm:py-24 lg:py-28">
-        <div className="max-w-[48rem]">
+        <div className="max-w-[44rem]">
           <motion.p
             initial="hidden"
             animate="visible"
             custom={0.05}
             variants={fadeUp}
-            className="mb-6 inline-flex rounded-full border border-blue-200 bg-white/75 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-brand)] shadow-sm backdrop-blur"
+            className="mb-7 inline-flex items-center text-[11px] font-medium uppercase tracking-[0.2em] text-gray-500"
           >
-            Premium Automotive Service · Braeside
+            Automotive Service · Braeside
           </motion.p>
 
-          <motion.p
-            initial="hidden"
-            animate="visible"
-            custom={0.08}
-            variants={fadeUp}
-            className="text-sm font-bold uppercase tracking-[0.12em] text-gray-700"
-          >
-            Reliable Automotive Care You Can Trust
-          </motion.p>
-
-          <motion.h1
+          <AnimatedHeading
+            as="h1"
             id="hero-heading"
-            initial="hidden"
-            animate="visible"
-            custom={0.12}
-            variants={fadeUp}
-            className="mt-4 max-w-5xl text-[2.65rem] leading-[1.02] font-black tracking-[-0.065em] text-black sm:text-[3.7rem] lg:text-[4.8rem]"
-          >
-            Car Servicing, Repairs & Mobile Battery Support
-          </motion.h1>
+            text="Car servicing, repairs & mobile battery support"
+            className="text-balance max-w-3xl text-[2.6rem] leading-[1.05] font-semibold tracking-[-0.03em] text-[var(--color-ink)] sm:text-[3.4rem] lg:text-[4.25rem]"
+          />
 
           <motion.p
             initial="hidden"
             animate="visible"
             custom={0.22}
             variants={fadeUp}
-            className="mt-7 max-w-2xl text-[1.05rem] leading-8 text-gray-800 sm:text-lg"
+            className="mt-7 max-w-xl text-[1.05rem] leading-[1.7] text-[var(--color-ink-soft)] sm:text-lg"
           >
-            Professional servicing, mechanical repairs, inspections, and mobile
-            battery replacement delivered with honest advice, accurate diagnostics,
-            and quality workmanship.
+            Honest advice, accurate diagnostics, and quality workmanship — from
+            routine servicing and mechanical repairs to inspections and on-site
+            battery replacement.
           </motion.p>
 
           <motion.div
@@ -95,47 +90,66 @@ export default function Hero() {
             animate="visible"
             custom={0.3}
             variants={fadeUp}
-            className="mt-10 flex flex-col gap-4 sm:flex-row"
+            className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center"
           >
             <a
               href="#quote"
-              className="inline-flex items-center justify-center rounded-full bg-[var(--color-brand)] px-8 py-4 text-sm font-bold text-white shadow-[0_18px_45px_rgba(37,99,235,0.28)] transition duration-300 hover:-translate-y-0.5 hover:bg-[var(--color-brand-hover)]"
+              className="inline-flex items-center justify-center rounded-full bg-[var(--color-brand)] px-8 py-4 text-sm font-medium text-white shadow-[0_10px_30px_rgba(37,99,235,0.20)] transition duration-300 hover:bg-[var(--color-brand-hover)]"
             >
               Get a Quote
             </a>
 
             <a
               href="tel:+61452066583"
-              className="inline-flex items-center justify-center rounded-full border border-gray-300 bg-white/90 px-8 py-4 text-sm font-bold text-black shadow-[0_14px_35px_rgba(15,23,42,0.12)] backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]"
+              className="inline-flex items-center justify-center gap-2.5 rounded-full border border-gray-300 px-8 py-4 text-sm font-medium text-[var(--color-ink)] transition duration-300 hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]"
             >
-              Call 0452 066 583
+              <Phone size={16} strokeWidth={2} aria-hidden="true" />
+              0452 066 583
             </a>
           </motion.div>
 
-          <motion.div
+          <motion.ul
             initial="hidden"
             animate="visible"
             custom={0.4}
             variants={fadeUp}
-            className="mt-11 flex flex-wrap items-center gap-4 rounded-full border border-gray-200 bg-white/70 px-5 py-3 text-sm font-semibold text-gray-800 shadow-sm backdrop-blur-md"
+            className="mt-12 flex flex-wrap items-center gap-x-3 gap-y-2 text-[13px] font-semibold text-gray-800"
           >
-            {trustSignals.map((signal, index) => (
-              <div key={signal.label} className="flex items-center gap-3">
-                <span className="text-[var(--color-gold)]" aria-hidden="true">
-                  {signal.icon}
+            {trustSignals.map((label, index) => (
+              <li key={label} className="flex items-center gap-3">
+                <span className="flex items-center gap-1.5">
+                  {index === 0 ? (
+                    <>
+                      <Star
+                        size={14}
+                        strokeWidth={0}
+                        className="fill-[#FBBC05]"
+                        aria-hidden="true"
+                      />
+                      4.9{' '}
+                      <span aria-label="Google">
+                        {googleColored.map(([letter, color], i) => (
+                          <span key={i} style={{ color }}>
+                            {letter}
+                          </span>
+                        ))}
+                      </span>{' '}
+                      Rating
+                    </>
+                  ) : (
+                    label
+                  )}
                 </span>
-
-                <span>{signal.label}</span>
 
                 {index < trustSignals.length - 1 ? (
                   <span
-                    className="hidden h-4 w-px bg-gray-300 sm:block"
+                    className="h-3.5 w-px bg-gray-300"
                     aria-hidden="true"
                   />
                 ) : null}
-              </div>
+              </li>
             ))}
-          </motion.div>
+          </motion.ul>
         </div>
       </div>
     </section>

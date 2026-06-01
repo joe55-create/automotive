@@ -3,14 +3,18 @@
 'use client';
 
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
+
+import AnimatedHeading from '@/components/AnimatedHeading';
 import {
   BatteryCharging,
   Car,
+  ChevronDown,
   CircleGauge,
   Cog,
   Disc,
+  MapPin,
   MoveHorizontal,
   SearchCheck,
   TriangleAlert,
@@ -85,18 +89,23 @@ const services = [
   },
 ];
 
-const mobileService = {
-  title: 'Mobile Battery Replacement & Vehicle Servicing',
-  summary:
-    'Convenient on-site battery testing, replacement, jump-start support, and practical vehicle servicing delivered at your location.',
-  details: [
-    'On-site battery testing and replacement',
-    'Emergency jump-start assistance',
-    'Battery health diagnostics',
-    'Basic vehicle servicing',
-    'Convenient mobile support',
-  ],
-};
+// Full accordion list — regular services plus the richer mobile offering
+const serviceList = [
+  ...services,
+  {
+    title: 'Mobile Battery Replacement & Vehicle Servicing',
+    icon: MapPin,
+    description:
+      'Convenient on-site battery testing, replacement, jump-start support, and practical vehicle servicing delivered at your location.',
+    details: [
+      'On-site battery testing and replacement',
+      'Emergency jump-start assistance',
+      'Battery health diagnostics',
+      'Basic vehicle servicing',
+      'Convenient mobile support',
+    ],
+  },
+];
 
 /**
  * @param {{
@@ -109,47 +118,17 @@ export default function Services({
   headingLevel = 'h2',
   headingId = 'services-heading',
 }) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  /** @type {import('react').RefObject<HTMLDivElement | null>} */
-  const dropdownRef = useRef(null);
-
-  useEffect(() => {
-    if (!isOpen) return undefined;
-
-    /**
-     * @param {MouseEvent} event
-     */
-    const handleClickOutside = (event) => {
-      if (!dropdownRef.current?.contains(/** @type {Node} */ (event.target))) {
-        setIsOpen(false);
-      }
-    };
-
-    /**
-     * @param {KeyboardEvent} event
-     */
-    const handleEscape = (event) => {
-      if (event.key === 'Escape') {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleEscape);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, [isOpen]);
+  const [openIndex, setOpenIndex] = useState(
+    /** @type {number | null} */ (0),
+  );
 
   return (
     <section
       id="services"
       aria-labelledby={headingId}
-      className="relative overflow-hidden border-b border-gray-200"
+      className="relative overflow-hidden border-b border-gray-200 bg-white"
     >
+      {/* Background Image */}
       <div className="absolute inset-0">
         <Image
           src="/images/braeside-diagnostics.webp"
@@ -160,50 +139,38 @@ export default function Services({
           className="object-cover object-center"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-r from-white/82 via-white/45 to-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-black/10" />
+        {/* Calm, even overlay — content stays clean */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/92 to-white/55" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white/70 via-transparent to-transparent" />
       </div>
 
-      <div className="section-shell relative z-10 py-32">
+      <div className="section-shell relative z-10 py-28">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.25 }}
           custom={0}
           variants={fadeUp}
-          className="max-w-5xl"
+          className="max-w-3xl"
         >
-          <p className="inline-flex rounded-full border border-blue-200 bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-brand)] shadow-sm backdrop-blur-md">
-            Premium Workshop Services
+          <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gray-500">
+            Workshop Services
           </p>
 
-          {headingLevel === 'h1' ? (
-            <h1
-              id={headingId}
-              className="mt-6 max-w-6xl text-[3rem] leading-[0.9] font-black tracking-[-0.08em] text-black sm:text-[4.5rem] lg:text-[5.8rem]"
-            >
-              Professional servicing,
-              <br />
-              diagnostics and repairs
-              <span className="block text-[var(--color-brand)]">
-                delivered with confidence.
-              </span>
-            </h1>
-          ) : (
-            <h2
-              id={headingId}
-              className="mt-6 max-w-6xl text-[3rem] leading-[0.9] font-black tracking-[-0.08em] text-black sm:text-[4.5rem] lg:text-[5.8rem]"
-            >
-              Professional servicing,
-              <br />
-              diagnostics and repairs
-              <span className="block text-[var(--color-brand)]">
-                delivered with confidence.
-              </span>
-            </h2>
-          )}
+          <AnimatedHeading
+            as={headingLevel}
+            id={headingId}
+            className="text-balance mt-5 max-w-3xl text-[2.4rem] leading-[1.05] font-semibold tracking-[-0.03em] text-[var(--color-ink)] sm:text-[3rem] lg:text-[3.5rem]"
+            segments={[
+              { text: 'Professional servicing, diagnostics and repairs ' },
+              {
+                text: 'delivered with confidence.',
+                className: 'text-[var(--color-brand)]',
+              },
+            ]}
+          />
 
-          <p className="mt-8 max-w-3xl text-[1.08rem] leading-8 text-gray-700 sm:text-lg">
+          <p className="mt-6 max-w-2xl text-[1.05rem] leading-[1.7] text-[var(--color-ink-soft)] sm:text-lg">
             From routine maintenance to complex mechanical repairs, Sarav Motors
             combines advanced diagnostics, experienced technicians, and honest
             advice to keep your vehicle performing at its best.
@@ -213,101 +180,85 @@ export default function Services({
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.15 }}
           custom={0.08}
           variants={fadeUp}
-          className="mt-12 flex flex-wrap gap-3"
+          className="mt-12 max-w-4xl divide-y divide-gray-200 border-y border-gray-200"
         >
-          {services.map((service) => (
-            <span
-              key={service.title}
-              className="rounded-full border border-white/70 bg-white/80 px-5 py-2.5 text-sm font-semibold text-gray-800 shadow-sm backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand)] hover:bg-white/95 hover:text-[var(--color-brand)]"
-            >
-              {service.title}
-            </span>
-          ))}
-
-          <div ref={dropdownRef} className="relative">
-            <button
-              type="button"
-              aria-expanded={isOpen}
-              aria-controls="mobile-service-dropdown"
-              onClick={() => setIsOpen((prev) => !prev)}
-              className={`rounded-full border px-5 py-2.5 text-sm font-bold shadow-sm backdrop-blur-xl transition-all duration-300 ${
-                isOpen
-                  ? 'border-[var(--color-brand)] bg-[var(--color-brand)] text-white shadow-[0_14px_35px_rgba(37,99,235,0.25)]'
-                  : 'border-white/70 bg-white/80 text-gray-800 hover:-translate-y-0.5 hover:border-[var(--color-brand)] hover:bg-white/95 hover:text-[var(--color-brand)]'
-              }`}
-            >
-              {mobileService.title}
-            </button>
-
-            {isOpen ? (
-              <motion.div
-                id="mobile-service-dropdown"
-                initial={{ opacity: 0, y: 12, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.25, ease: easing }}
-                className="absolute left-0 z-30 mt-3 w-[min(29rem,calc(100vw-2rem))] rounded-[1.7rem] border border-white/70 bg-white/92 p-5 shadow-[0_24px_70px_rgba(15,23,42,0.18)] backdrop-blur-2xl"
-              >
-                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--color-brand)]">
-                  Mobile Support
-                </p>
-
-                <p className="mt-3 text-sm leading-7 text-gray-700">
-                  {mobileService.summary}
-                </p>
-
-                <div className="mt-5 grid gap-2">
-                  {mobileService.details.map((detail) => (
-                    <p
-                      key={detail}
-                      className="rounded-[1rem] border border-white/70 bg-white/80 px-3 py-2 text-sm font-medium text-gray-700 backdrop-blur"
-                    >
-                      {detail}
-                    </p>
-                  ))}
-                </div>
-              </motion.div>
-            ) : null}
-          </div>
-        </motion.div>
-
-        <div className="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {services.map((service, index) => {
+          {serviceList.map((service, index) => {
             const Icon = service.icon;
+            const isActive = openIndex === index;
 
             return (
-              <motion.article
-                key={service.title}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.18 }}
-                custom={0.08 + index * 0.04}
-                variants={fadeUp}
-                className="group overflow-hidden rounded-[2.2rem] border border-white/60 bg-white/75 p-7 shadow-[0_18px_60px_rgba(15,23,42,0.16)] backdrop-blur-xl backdrop-saturate-150 transition-all duration-500 hover:-translate-y-2 hover:border-white/80 hover:bg-white/88 hover:shadow-[0_28px_90px_rgba(15,23,42,0.22)]"
-              >
-                <div className="flex items-center justify-between gap-4">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.26em] text-gray-500">
-                    {String(index + 1).padStart(2, '0')}
-                  </p>
+              <div key={service.title}>
+                <button
+                  type="button"
+                  aria-expanded={isActive}
+                  onClick={() => setOpenIndex(isActive ? null : index)}
+                  className="flex w-full items-center gap-4 py-5 text-left"
+                >
+                  <span
+                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border transition duration-300 ${
+                      isActive
+                        ? 'border-[var(--color-brand)] bg-[var(--color-brand)] text-white'
+                        : 'border-gray-200 bg-gray-50 text-[var(--color-brand)]'
+                    }`}
+                  >
+                    <Icon size={18} strokeWidth={2} />
+                  </span>
 
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/70 bg-white/70 text-[var(--color-brand)] shadow-sm backdrop-blur-md transition duration-300 group-hover:bg-[var(--color-brand)] group-hover:text-white">
-                    <Icon size={22} strokeWidth={2.2} />
-                  </div>
-                </div>
+                  <span className="flex-1 text-[1.05rem] font-semibold tracking-[-0.01em] text-[var(--color-ink)]">
+                    {service.title}
+                  </span>
 
-                <h3 className="mt-5 text-[1.18rem] font-black tracking-[-0.03em] text-black">
-                  {service.title}
-                </h3>
+                  <ChevronDown
+                    size={20}
+                    aria-hidden="true"
+                    className={`shrink-0 text-[var(--color-ink)] transition-transform duration-300 ${
+                      isActive ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
 
-                <p className="mt-3 text-sm leading-7 text-gray-700">
-                  {service.description}
-                </p>
-              </motion.article>
+                <AnimatePresence initial={false}>
+                  {isActive ? (
+                    <motion.div
+                      key="content"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: easing }}
+                      className="overflow-hidden"
+                    >
+                      <div className="pb-6 pl-14 pr-6">
+                        <p className="text-sm leading-7 text-[var(--color-ink-soft)]">
+                          {service.description}
+                        </p>
+
+                        {service.details ? (
+                          <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+                            {service.details.map((detail) => (
+                              <li
+                                key={detail}
+                                className="flex items-center gap-2.5 text-sm text-[var(--color-ink-soft)]"
+                              >
+                                <span
+                                  className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-brand)]"
+                                  aria-hidden="true"
+                                />
+                                {detail}
+                              </li>
+                            ))}
+                          </ul>
+                        ) : null}
+                      </div>
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
+              </div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

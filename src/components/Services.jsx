@@ -32,6 +32,16 @@ const fadeUp = {
   }),
 };
 
+/**
+ * @typedef {{
+ *   title: string;
+ *   icon: import('lucide-react').LucideIcon;
+ *   description: string;
+ *   details?: string[];
+ * }} Service
+ */
+
+/** @type {Service[]} */
 const services = [
   {
     title: 'Log Book Service',
@@ -90,6 +100,7 @@ const services = [
 ];
 
 // Full accordion list — regular services plus the richer mobile offering
+/** @type {Service[]} */
 const serviceList = [
   ...services,
   {

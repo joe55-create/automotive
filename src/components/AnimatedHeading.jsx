@@ -64,9 +64,7 @@ export default function AnimatedHeading({
       let next = '';
       let done = 0;
 
-      for (let i = 0; i < queue.length; i += 1) {
-        const { char, end } = queue[i];
-
+      for (const { char, end } of queue) {
         if (char === ' ' || char === ' ') {
           next += char;
           done += 1;
